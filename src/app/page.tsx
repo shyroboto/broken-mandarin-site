@@ -3,6 +3,7 @@ import Artwork3D from "./_components/Artwork3D";
 export default function Home() {
   return (
     <main className="relative h-dvh w-full overflow-hidden">
+      <div className="bg-pattern" aria-hidden="true" />
       <div className="vignette" aria-hidden="true" />
 
       {/* Floating 3D artwork */}

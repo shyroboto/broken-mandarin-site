@@ -14,12 +14,35 @@ body {
   height: 100%;
   overflow: hidden;
   background: #1b34c8;
+  cursor: pointer;
 }
 
 body {
   color: var(--color-foreground);
   font-family: var(--font-barlow), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Warped op-art wave texture, blended into the blue for tonal depth */
+.bg-pattern {
+  position: absolute;
+  inset: -12%;
+  background-image: url("/bg-pattern.png");
+  background-size: cover;
+  background-position: center;
+  mix-blend-mode: soft-light;
+  opacity: 0.3;
+  will-change: transform;
+  animation: bg-drift 38s ease-in-out infinite alternate;
+}
+
+@keyframes bg-drift {
+  0% {
+    transform: translate3d(-2.5%, -1%, 0) scale(1.06) rotate(0.6deg);
+  }
+  100% {
+    transform: translate3d(2.5%, 1%, 0) scale(1.14) rotate(-0.6deg);
+  }
 }
 
 /* Subtle depth over the flat blue */
@@ -128,16 +151,36 @@ body {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: repeating-linear-gradient(
+  background-image: repeating-linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 0.1) 0px,
-    rgba(0, 0, 0, 0.1) 1px,
-    transparent 2px,
-    transparent 4px
+    rgba(0, 0, 0, 0.22) 0px,
+    rgba(0, 0, 0, 0.22) 1px,
+    transparent 1px,
+    transparent 3px
   );
   mix-blend-mode: multiply;
-  opacity: 0.4;
-  animation: flicker 3s steps(1) infinite;
+  opacity: 0.6;
+  animation:
+    scan-scroll 0.35s linear infinite,
+    flicker 2.2s steps(1) infinite;
+}
+
+/* Rolling CRT sweep band travelling down the screen */
+.scan::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -35%;
+  height: 35%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(0, 0, 0, 0.28) 45%,
+    rgba(0, 0, 0, 0.28) 55%,
+    transparent
+  );
+  animation: scan-sweep 4.5s linear infinite;
 }
 
 /* ---- Keyframes ---- */
@@ -170,13 +213,23 @@ body {
   61% { transform: translate3d(0, 0, 80px); opacity: 0; }
 }
 
+@keyframes scan-scroll {
+  to { background-position-y: 3px; }
+}
+
+@keyframes scan-sweep {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(420%); }
+}
+
 @keyframes flicker {
-  0%, 100% { opacity: 0.4; }
-  47% { opacity: 0.4; }
-  48% { opacity: 0.75; }
-  49% { opacity: 0.2; }
-  50% { opacity: 0.5; }
-  51% { opacity: 0.4; }
+  0%, 100% { opacity: 0.6; }
+  46% { opacity: 0.6; }
+  47% { opacity: 0.9; }
+  48% { opacity: 0.35; }
+  49% { opacity: 0.75; }
+  50% { opacity: 0.55; }
+  51% { opacity: 0.6; }
 }
 
 /* Glitchy title ghosting */
@@ -222,8 +275,10 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .bg-pattern,
   .float,
   .scan,
+  .scan::before,
   .artwork__ghost,
   .glitch-text::before,
   .glitch-text::after {
