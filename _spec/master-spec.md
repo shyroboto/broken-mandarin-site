@@ -64,7 +64,10 @@
 ### Assets
 - `assets/Shot Orange Square.jpg` — web-res artwork (105KB)
 - `assets/Shot Orange 3000x3000.jpg` — high-res master (301KB)
-- `public/shot-orange.jpg` — copy served by Next.js
+- `assets/Shot Orange.png` — PNG master, used as favicon
+- `public/shot-orange.jpg` — JPEG served by Next.js Image
+- `public/favicon.png` — favicon copy in public
+- `src/app/icon.png` — favicon registered via Next.js App Router convention (auto-detected, no code needed)
 
 ---
 

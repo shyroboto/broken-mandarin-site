@@ -58,7 +58,7 @@ export default function Home() {
               rel="noopener noreferrer"
               className="text-[10px] tracking-[0.3em] uppercase text-foreground/70 transition-colors hover:text-orange"
             >
-              Instagram ↗ @brokenmandarin
+              Instagram @brokenmandarin
             </a>
             <p className="text-[10px] tracking-[0.4em] uppercase text-foreground/50">
               © 2026
